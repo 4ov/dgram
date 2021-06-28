@@ -137,21 +137,3 @@ export default class Dgram {
 
 
 
-let x = new Dgram('1626110366:AAGkEwCEjsmDKiV2D-w5tbQQihhqmgCKeFU', {})
-
-
-x.use((ctx)=>{
-    
-})
-
-x.text([/\/start/], ctx => {
-    console.log('matched!!');
-
-
-})
-
-
-
-
-
-x.poll()
