@@ -28,6 +28,6 @@ export function matchRule(update : Update, rule : Rule, updateType : UpdateType,
     return [
         rule.type == updateType || rule.type == null,
         rule.subType == updateSubtype || rule.subType == null,
-        rule.subType == 'text' && rule.text?.test((update[updateType] as Message).text || "")
+        rule.subType == 'text' && (rule.text?.test((update[updateType] as Message).text || "") || rule.text == null )
     ].every(a=>a)
 }

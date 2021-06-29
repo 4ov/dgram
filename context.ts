@@ -1,4 +1,4 @@
-import { Update, SendMessage, Message } from './telegram-types.ts'
+import { Update, SendMessage, Message, SendAudio } from './telegram-types.ts'
 import Dgram from './dgram.ts'
 import { ContextExtra, UpdateType, UpdateSubtype } from './types.ts'
 
@@ -26,4 +26,11 @@ export default class Context {
             ...extra
         })
     }
+
+    async replyAudio(text : string, extra? : Omit<SendAudio, "chat_id" | "audio" | "reply_to_message_id">){
+
+    }
+
+
+    
 }

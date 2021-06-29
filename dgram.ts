@@ -16,7 +16,9 @@ export default class Dgram {
     private offset = 0;
     telegram: Telegram;
 
-    constructor(token: string, options: Options) {
+    onUpdate : ((update : Update)=> void) | null = null
+
+    constructor(token: string, options: Options = {}) {
         this.options = defaultize(defaults.options, options)
         this.token = token
         this.telegram = new Telegram(this.token)
@@ -78,6 +80,7 @@ export default class Dgram {
 
 
     private handle(update: Update) {
+        this.onUpdate?.(update)
         const self = this
         let updateType = getUpdateType(update)
         let updateSubtype = getUpdateSubtype(update, updateType)
