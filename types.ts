@@ -72,5 +72,6 @@ export type UpdateSubtype = typeof updateSubtypes[number]
 
 export interface ContextExtra {
     updateType : UpdateType
-    updateSubtype : UpdateSubtype
+    updateSubtype : UpdateSubtype,
+    // result : RegExpMatchArray
 }

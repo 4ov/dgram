@@ -9,12 +9,14 @@ export default class Context {
     private extra : ContextExtra
     updateType : UpdateType
     updateSubtype : UpdateSubtype
+    result : boolean | RegExpExecArray | null | undefined
     constructor(dgram: Dgram, update: Update, extra : ContextExtra) {
         this.dgram = dgram
         this.update = update
         this.extra = extra
         this.updateType = extra.updateType
         this.updateSubtype = extra.updateSubtype
+        //this.result = extra.result
     }
 
     async reply(text : string, extra? : Omit<SendMessage, "chat_id" | "text" | "reply_to_message_id">){

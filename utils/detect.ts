@@ -25,9 +25,13 @@ export function getUpdateSubtype(update: Update, updateType: UpdateType) {
 
 
 export function matchRule(update : Update, rule : Rule, updateType : UpdateType, updateSubtype : UpdateSubtype){
-    return [
-        rule.type == updateType || rule.type == null,
-        rule.subType == updateSubtype || rule.subType == null,
-        rule.subType == 'text' && (rule.text?.test((update[updateType] as Message).text || "") || rule.text == null )
-    ].every(a=>a)
+    return[
+         [
+            rule.type == updateType || rule.type == null,
+            rule.subType == updateSubtype || rule.subType == null,
+            rule.subType == 'text' && (rule.text?.test((update[updateType] as Message).text || "") || rule.text == null )
+        ].every(a=>a),
+        rule.text?.exec((update[updateType] as Message).text || "")
+
+    ]
 }

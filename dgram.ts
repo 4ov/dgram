@@ -89,7 +89,9 @@ export default class Dgram {
 
 
         this.rules.forEach(rule => {
-            let matched = matchRule(update, rule, updateType, updateSubtype)
+            let [matched, result] = matchRule(update, rule, updateType, updateSubtype)
+            context.result = result
+            
             if (matched) {
                 self.invokeMiddleware(context)
                 rule.callbacks.forEach(callback => {
