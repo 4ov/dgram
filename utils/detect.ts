@@ -25,7 +25,7 @@ export function getUpdateSubtype(update: Update, updateType: UpdateType) {
 
 
 export function matchRule(update: Update, rule: Rule, updateType: UpdateType, updateSubtype: UpdateSubtype) {
-
+    console.log(rule)
 
 
     return [
