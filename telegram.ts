@@ -22,6 +22,8 @@ export default class Telegram {
 
         let result = await fetch(url.toString())
             .then(d => d.json())
+            //! remove if it is not beta
+            .catch(err=>console.log(err))
         if (result.ok == true) {
             return result.result
         } else {
@@ -55,6 +57,11 @@ export default class Telegram {
             },
             body
         }).then(d => d.json())
+        //! remove if it is not beta
+        .catch(err=>{
+            console.log(err);
+            
+        })
         if (result.ok) {
             return result.result
         } else {
