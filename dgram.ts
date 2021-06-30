@@ -80,7 +80,7 @@ export default class Dgram {
 
 
 
-    private handle(update: Update) {
+    handle(update: Update) {
         this.onUpdate?.(update)
         const self = this
         let updateType = getUpdateType(update)
@@ -107,24 +107,8 @@ export default class Dgram {
                     callback(context, next)
                 })
             }
-            console.log(passedRules);
             
             go()
-
-        // passedRules.forEach(rule => {
-        //     let [, result] = matchRule(update, rule, updateType, updateSubtype)
-        //     context.result = result
-        //     rule.callbacks.forEach(callback => {
-        //         try {
-        //             callback(context)
-        //         } catch (err) {
-        //             console.log(err);
-
-        //         }
-        //     })
-
-
-        // })
 
         this.offset = update.update_id + 1
 
