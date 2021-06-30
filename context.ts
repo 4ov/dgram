@@ -1,4 +1,4 @@
-import { Update, SendMessage, Message, SendAudio } from './telegram-types.ts'
+import { Update, SendMessage, Message, SendAudio, EditMessageText } from './telegram-types.ts'
 import Dgram from './dgram.ts'
 import { ContextExtra, UpdateType, UpdateSubtype } from './types.ts'
 
@@ -29,9 +29,25 @@ export default class Context {
         })
     }
 
-    async replyAudio(text : string, extra? : Omit<SendAudio, "chat_id" | "audio" | "reply_to_message_id">){
-
+    async delete(){
+        let message = (this.update[this.extra.updateType] as Message)
+        return await this.dgram.telegram.deleteMessage({
+            chat_id : message.chat.id,
+            message_id : message.message_id
+        })
     }
+
+    async editMessageText(message_id : number, text : string, extra? : Omit<EditMessageText, "message_id" | "text">){
+        let message = (this.update[this.extra.updateType] as Message)
+        return await this.dgram.telegram.editMessageText({
+            text,
+            message_id,
+            chat_id : message.chat.id
+
+        })
+    }
+
+    
 
 
     

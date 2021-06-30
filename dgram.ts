@@ -95,7 +95,12 @@ export default class Dgram {
             if (matched) {
                 self.invokeMiddleware(context)
                 rule.callbacks.forEach(callback => {
+                   try{
                     callback(context)
+                   }catch(err){
+                       console.log(err);
+                       
+                   }
                 })
             }
 

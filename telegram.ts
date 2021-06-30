@@ -1,4 +1,4 @@
-import { User, Message, SendMessage, ForwardMessage, CopyMessage, SendPhoto, SendAudio, SendDocument, SendVideo, SendAnimation, SendVoice, SendVideoNote, SendLocation, EditMessageLiveLocation, StopMessageLiveLocation, SendVenue, SendContact, SendPoll, SendDice, SendChatAction, GetUserProfilePhotos, KickChatMember, UnbanChatMember, RestrictChatMember, PromoteChatMember, SetChatAdministratorCustomTitle, SetChatPermissions, ExportChatInviteLink, GetUpdates, Update } from './telegram-types.ts'
+import { User, Message, SendMessage, ForwardMessage, CopyMessage, SendPhoto, SendAudio, SendDocument, SendVideo, SendAnimation, SendVoice, SendVideoNote, SendLocation, EditMessageLiveLocation, StopMessageLiveLocation, SendVenue, SendContact, SendPoll, SendDice, SendChatAction, GetUserProfilePhotos, KickChatMember, UnbanChatMember, RestrictChatMember, PromoteChatMember, SetChatAdministratorCustomTitle, SetChatPermissions, ExportChatInviteLink, GetUpdates, Update, EditMessageText, DeleteMessage } from './telegram-types.ts'
 
 
 export default class Telegram {
@@ -65,7 +65,7 @@ export default class Telegram {
 
 
 
-
+    //--- methods ---//
     async getMe(): Promise<User> {
         return await this.Get('getMe')
     }
@@ -78,6 +78,16 @@ export default class Telegram {
     async sendMessage(config: SendMessage): Promise<Message> {
         return await this.Get('sendMessage', config)
     }
+    
+    async editMessageText(config: EditMessageText): Promise<Message> {
+        return await this.Get('editMessageText', config)
+    }
+   
+    async deleteMessage(config: DeleteMessage): Promise<Message> {
+        return await this.Get('deleteMessage', config)
+    }
+    
+
 
     async forwardMessage(config: ForwardMessage): Promise<Message> {
         return await this.Get('forwardMessage', config)
