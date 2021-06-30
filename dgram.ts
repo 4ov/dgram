@@ -89,6 +89,7 @@ export default class Dgram {
 
 
         const passedRules = this.rules.filter(rule => {
+            console.log(rule)
             if (rule) {
                 let [matched, result] = matchRule(update, rule, updateType, updateSubtype)
                 if (matched) {
