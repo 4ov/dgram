@@ -5,6 +5,7 @@ export default class Telegram {
     private baseUrl = 'https://api.telegram.org/bot'
     get url() { return `${this.baseUrl}${this.token}` }
     token: string;
+    onRequest : Function | undefined
     fetcher: typeof fetch
     constructor(token: string, fetcher: (typeof fetch) = fetch) {
         this.token = token
@@ -19,6 +20,10 @@ export default class Telegram {
             url.searchParams.set(key, value)
         })
 
+        this?.onRequest?.({
+            url : url.toString(),
+            params
+        })
 
         let result = await fetch(url.toString())
             .then(d => d.json())
@@ -45,6 +50,10 @@ export default class Telegram {
             })
         }
 
+        this?.onRequest?.({
+            url : url.toString(),
+            params
+        })
 
 
 
