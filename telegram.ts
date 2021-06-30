@@ -1,4 +1,4 @@
-import { User, Message, SendMessage, ForwardMessage, CopyMessage, SendPhoto, SendAudio, SendDocument, SendVideo, SendAnimation, SendVoice, SendVideoNote, SendLocation, EditMessageLiveLocation, StopMessageLiveLocation, SendVenue, SendContact, SendPoll, SendDice, SendChatAction, GetUserProfilePhotos, KickChatMember, UnbanChatMember, RestrictChatMember, PromoteChatMember, SetChatAdministratorCustomTitle, SetChatPermissions, ExportChatInviteLink, GetUpdates, Update, EditMessageText, DeleteMessage } from './telegram-types.ts'
+import { User, Message, SendMessage, ForwardMessage, CopyMessage, SendPhoto, SendAudio, SendDocument, SendVideo, SendAnimation, SendVoice, SendVideoNote, SendLocation, EditMessageLiveLocation, StopMessageLiveLocation, SendVenue, SendContact, SendPoll, SendDice, SendChatAction, GetUserProfilePhotos, KickChatMember, UnbanChatMember, RestrictChatMember, PromoteChatMember, SetChatAdministratorCustomTitle, SetChatPermissions, ExportChatInviteLink, GetUpdates, Update, EditMessageText, DeleteMessage, SetMyCommands } from './telegram-types.ts'
 
 
 export default class Telegram {
@@ -196,14 +196,9 @@ export default class Telegram {
         return await this.Get('setChatPermissions', config)
     }
     
-    // async exportChatInviteLink(config: ExportChatInviteLink): Promise<Message> {
-    //     return await this.Get('exportChatInviteLink', config)
-    // }
-    
-    // async createChatInviteLink(config: ExportChatInviteLink): Promise<Message> {
-    //     return await this.Get('createChatInviteLink', config)
-    // }
-    
+    async setMyCommands(config : SetMyCommands){
+        return await this.Get('setMyCommands', config)
+    }
 
 
 }

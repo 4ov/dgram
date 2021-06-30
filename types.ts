@@ -6,7 +6,7 @@ export interface Options {
 
 
 
-export type Callback = (ctx: Context, next?: Function) => void;
+export type Callback = (ctx: Context, next: ()=>void) => void;
 
 export interface Rule {
     type: UpdateType | null;

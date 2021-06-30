@@ -11,12 +11,11 @@ import Context from './context.ts'
 export default class Dgram {
     private options: Options
     private token: string
-    private middlewares: Callback[] = []
     private rules: Rule[] = []
     private offset = 0;
     telegram: Telegram;
 
-    onUpdate : ((update : Update)=> void) | null = null
+    onUpdate: ((update: Update) => void) | null = null
 
     constructor(token: string, options: Options = {}) {
         this.options = defaultize(defaults.options, options)
@@ -26,8 +25,14 @@ export default class Dgram {
 
 
     use(...fns: Callback[]) {
+        
         const self = this
-        fns.forEach(fn => this.middlewares.push(fn))
+        self.rules.push({
+            type: null,
+            subType: null,
+            text: null,
+            callbacks: fns
+        })
     }
 
     on(type: UpdateType | UpdateType[], ...fns: Callback[]) {
@@ -72,11 +77,7 @@ export default class Dgram {
     }
 
 
-    private invokeMiddleware(ctx : Context) {
-        let mid = new Middleware()
-        this.middlewares.forEach(mw => mid.use(mw))
-        mid.go(ctx, () => { })
-    }
+
 
 
     private handle(update: Update) {
@@ -88,24 +89,42 @@ export default class Dgram {
         const context = new Context(this, update, { updateType, updateSubtype })
 
 
-        this.rules.forEach(rule => {
+        const passedRules = this.rules.filter(rule => {
             let [matched, result] = matchRule(update, rule, updateType, updateSubtype)
-            context.result = result
-            
             if (matched) {
-                self.invokeMiddleware(context)
-                rule.callbacks.forEach(callback => {
-                   try{
-                    callback(context)
-                   }catch(err){
-                       console.log(err);
-                       
-                   }
+                return true
+            }
+        })
+
+            function go(id=0){                
+                function next(){
+                    go(id+1)
+                }
+                const rule = passedRules[id]
+                let [, result] = matchRule(update, rule, updateType, updateSubtype)
+                context.result = result
+                rule?.callbacks.forEach(callback=>{
+                    callback(context, next)
                 })
             }
+            console.log(passedRules);
+            
+            go()
+
+        // passedRules.forEach(rule => {
+        //     let [, result] = matchRule(update, rule, updateType, updateSubtype)
+        //     context.result = result
+        //     rule.callbacks.forEach(callback => {
+        //         try {
+        //             callback(context)
+        //         } catch (err) {
+        //             console.log(err);
+
+        //         }
+        //     })
 
 
-        })
+        // })
 
         this.offset = update.update_id + 1
 
