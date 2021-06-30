@@ -85,7 +85,7 @@ export default class Dgram {
         const self = this
         let updateType = getUpdateType(update)
         let updateSubtype = getUpdateSubtype(update, updateType)
-
+        console.log(this.rules)
         const context = new Context(this, update, { updateType, updateSubtype })
 
 
