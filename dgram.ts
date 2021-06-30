@@ -25,7 +25,7 @@ export default class Dgram {
 
 
     use(...fns: Callback[]) {
-        
+
         const self = this
         self.rules.push({
             type: null,
@@ -96,19 +96,23 @@ export default class Dgram {
             }
         })
 
-            function go(id=0){                
-                function next(){
-                    go(id+1)
-                }
-                const rule = passedRules[id]
-                let [, result] = matchRule(update, rule, updateType, updateSubtype)
-                context.result = result
-                rule?.callbacks.forEach(callback=>{
-                    callback(context, next)
-                })
+        function go(id = 0) {
+            function next() {
+                go(id + 1)
             }
-            
-            go()
+            const rule = passedRules[id]
+            let [, result] = matchRule(update, rule, updateType, updateSubtype)
+            context.result = result
+            rule?.callbacks.forEach(callback => {
+                try{
+                    callback(context, next)
+                }catch(err){
+                    console.log(err)
+                }
+            })
+        }
+
+        go()
 
         this.offset = update.update_id + 1
 

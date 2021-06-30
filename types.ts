@@ -6,12 +6,12 @@ export interface Options {
 
 
 
-export type Callback = (ctx: Context, next: ()=>void) => void;
+export type Callback = (ctx: Context, next: () => void) => void;
 
 export interface Rule {
     type: UpdateType | null;
     subType: UpdateSubtype | null;
-    text : RegExp | null
+    text: RegExp | null
     callbacks: Callback[]
 }
 
@@ -71,7 +71,7 @@ export type UpdateSubtype = typeof updateSubtypes[number]
 
 
 export interface ContextExtra {
-    updateType : UpdateType
-    updateSubtype : UpdateSubtype,
+    updateType: UpdateType
+    updateSubtype: UpdateSubtype,
     // result : RegExpMatchArray
 }
