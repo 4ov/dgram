@@ -91,8 +91,6 @@ export default class Dgram {
         const passedRules = this.rules.filter(rule => {
             if (rule) {
                 let [matched, result] = matchRule(update, rule, updateType, updateSubtype)
-                console.log(matched);
-                
                 if (matched) {
                     return true
                 }
@@ -105,15 +103,17 @@ export default class Dgram {
                 go(id + 1)
             }
             const rule = passedRules[id]
-            let [, result] = matchRule(update, rule, updateType, updateSubtype)
-            context.result = result
-            rule?.callbacks.forEach(callback => {
-                try {
-                    callback(context, next)
-                } catch (err) {
-                    console.log(err)
-                }
-            })
+            if (rule) {
+                let [, result] = matchRule(update, rule, updateType, updateSubtype)
+                context.result = result
+                rule?.callbacks.forEach(callback => {
+                    try {
+                        callback(context, next)
+                    } catch (err) {
+                        console.log(err)
+                    }
+                })
+            }
         }
 
         go()
