@@ -4,7 +4,7 @@ import urlcat from 'https://esm.sh/urlcat'
 export default class Telegram {
     private baseUrl = 'https://api.telegram.org/bot'
     url(method : string, params : object){
-        return urlcat('https://api.telegram.org/bot:token/:method', {
+        return urlcat(`https://api.telegram.org/bot${this.token}/:method`, {
             method,
             ...params,
             token : this.token
@@ -40,6 +40,8 @@ export default class Telegram {
 
     async Post(methodName: string, params: Object | FormData) {
         let url = this.url(methodName, {})
+        console.log(url);
+        
         let body = params instanceof FormData ? params : new FormData()
         if (!(params instanceof FormData)) {
             Object.entries(params).forEach(([key, value]) => {
