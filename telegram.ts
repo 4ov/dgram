@@ -1,9 +1,15 @@
 import { User, Message, SendMessage, ForwardMessage, CopyMessage, SendPhoto, SendAudio, SendDocument, SendVideo, SendAnimation, SendVoice, SendVideoNote, SendLocation, EditMessageLiveLocation, StopMessageLiveLocation, SendVenue, SendContact, SendPoll, SendDice, SendChatAction, GetUserProfilePhotos, KickChatMember, UnbanChatMember, RestrictChatMember, PromoteChatMember, SetChatAdministratorCustomTitle, SetChatPermissions, ExportChatInviteLink, GetUpdates, Update, EditMessageText, DeleteMessage, SetMyCommands } from './telegram-types.ts'
-
+import urlcat from 'https://esm.sh/urlcat'
 
 export default class Telegram {
     private baseUrl = 'https://api.telegram.org/bot'
-    get url() { return `${this.baseUrl}${this.token}` }
+    url(method : string, params : object){
+        return urlcat('https://api.telegram.org/bot:token/:method', {
+            method,
+            ...params,
+            token : this.token
+        })
+    }
     token: string;
     onRequest : Function | undefined
     fetcher: typeof fetch
@@ -14,18 +20,14 @@ export default class Telegram {
     }
 
     async Get(methodName: string, params: Object = {}) {
-        let url = new URL(this.url)
-        url.pathname = `${url.pathname}/${methodName}`
-        Object.entries(params).forEach(([key, value]) => {
-            url.searchParams.set(key, value)
-        })
+        let url = this.url(methodName, params)
 
         this?.onRequest?.({
-            url : url.toString(),
+            url : url,
             params
         })
 
-        let result = await fetch(url.toString())
+        let result = await fetch(url)
             .then(d => d.json())
             //! remove if it is not beta
             .catch(err => console.log(err))
@@ -37,8 +39,7 @@ export default class Telegram {
     }
 
     async Post(methodName: string, params: Object | FormData) {
-        let url = new URL(this.url)
-        url.pathname = `${url.pathname}/${methodName}`
+        let url = this.url(methodName, {})
         let body = params instanceof FormData ? params : new FormData()
         if (!(params instanceof FormData)) {
             Object.entries(params).forEach(([key, value]) => {
@@ -51,7 +52,7 @@ export default class Telegram {
         }
 
         this?.onRequest?.({
-            url : url.toString(),
+            url : url,
             params
         })
 
@@ -59,7 +60,7 @@ export default class Telegram {
 
 
 
-        const result = await fetch(url.toString(), {
+        const result = await fetch(url, {
             method: 'POST',
             headers: {
                 connection: 'keep-alive'

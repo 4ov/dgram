@@ -131,10 +131,10 @@ export default class Dgram {
 
 
     async poll() {
-        let url = new URL(this.telegram.url)
-        url.pathname = `${url.pathname}/getUpdates`
-        url.searchParams.set('timeout', `${this.options.timeOut}`)
-        url.searchParams.set('offset', `${this.offset}`)
+        let url = this.telegram.url('getUpdates', {
+            timeout : this.options.timeOut,
+            offset : this.offset
+        })
 
         let req = await this.telegram.fetcher(url)
 
