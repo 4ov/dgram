@@ -4,7 +4,7 @@ import urlcat from 'https://esm.sh/urlcat'
 export default class Telegram {
     private baseUrl = 'https://api.telegram.org/bot'
     url(method: string, params: object) {
-        let u = urlcat(`https://api.telegram.org/bot${this.token}/:method`, {
+        let u = urlcat(`https://api.telegram.org/bot:token/:method`, {
             method,
             ...params,
             token: this.token
