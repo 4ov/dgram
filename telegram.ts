@@ -39,9 +39,7 @@ export default class Telegram {
     }
 
     async Post(methodName: string, params: Object | FormData) {
-        let url = this.url(methodName, {})
-        console.log(url);
-        
+        let url = this.url(methodName, {})        
         let body = params instanceof FormData ? params : new FormData()
         if (!(params instanceof FormData)) {
             Object.entries(params).forEach(([key, value]) => {
