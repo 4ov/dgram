@@ -4,11 +4,13 @@ import urlcat from 'https://esm.sh/urlcat'
 export default class Telegram {
     private baseUrl = 'https://api.telegram.org/bot'
     url(method: string, params: object) {
-        return urlcat(`https://api.telegram.org/bot${this.token}/:method`, {
+        let u = urlcat(`https://api.telegram.org/bot${this.token}/:method`, {
             method,
             ...params,
             token: this.token
         })
+        return u;
+        
     }
     token: string;
     onRequest: Function | undefined
